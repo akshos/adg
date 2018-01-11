@@ -1,31 +1,14 @@
 #include "primitives.h"
 
-void tests()
+void render()
 {
-	float pick_col[3];
-	glReadPixels(199 , 199 , 1 , 1 , GL_RGB , GL_FLOAT , pick_col);
-	cout << "Red:" << pick_col[0] << " Green:" << pick_col[1] << " Blue:" << pick_col[2] << endl; 
-		
-	for( int x = 100; x < 500; x++ )
-	{
-		glReadPixels(x , 100 , 1 , 1 , GL_RGB , GL_UNSIGNED_BYTE , pick_col);
-		if( pick_col == BLACK )
-		{
-			cout << "Reached circle boundary at x = " << x << endl;
-			break;
-		}
-	}
+	cout << "started render" << endl;
+	glClearColor(1.0, 1.0, 1.0, 0.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	drawAllNodesEdges();
+	glFlush();
+	cout << "finished render" << endl;
 }
-
-//void render()
-//{
-//	cout << "started render" << endl;
-//	glClearColor(1.0, 1.0, 1.0, 0.0);
-//	glClear(GL_COLOR_BUFFER_BIT);
-//	drawAllNodesEdges();
-//	glFlush();
-//	cout << "finished render" << endl;
-//}
 
 NODE *node1 = NULL, *node2 = NULL;
 int edgeWeightFlag = 0;
