@@ -1,17 +1,8 @@
 #include "primitives.h"
 
-void render()
-{
-	cout << "started render" << endl;
-	glClearColor(1.0, 1.0, 1.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	drawAllNodesEdges();
-	glFlush();
-	cout << "finished render" << endl;
-}
-
 NODE *node1 = NULL, *node2 = NULL;
-int edgeWeightFlag = 0;
+POINT edgeBeg, edgeEnd;
+int edgeWeightFlag = 0, dijkstraFlag = 0;
 
 void selectNode(int x, int y)
 {
@@ -19,7 +10,10 @@ void selectNode(int x, int y)
 	{
 		node1 = getNodeByXY(x, y);
 		if(node1 != NULL )
+		{
 			cout << "\nStart Node : " << node1->id << endl;
+			edgeBeg.x = x; edgeBeg.y = y;
+		}
 	}
 	else
 	{
@@ -28,7 +22,8 @@ void selectNode(int x, int y)
 		{
 			if( node2 == node1 )
 				return;
-			cout << "End Node : " << node2->id << endl;			
+			cout << "End Node : " << node2->id << endl;		
+			edgeEnd.x = x; edgeEnd.y = y;	
 			edgeWeightFlag = 1;
 		}	
 	}
@@ -40,6 +35,13 @@ void mouseClick(int button, int state, int x, int y)
 	{
 		if( state == GLUT_DOWN )
 		{
+			if( dijkstraFlag == 1 )
+			{
+				NODE *start = getNodeByXY(x, 500-y);
+				dijkstra(start);
+				dijkstraFlag = 0;
+				return;
+			}
 			addNode(x, 500-y);
 			glFlush();
 		}
@@ -60,7 +62,7 @@ void keyboardPress(unsigned char key, int x, int y)
 	{
 		int weight = (int)(key-'0');
 		cout << "Edge weight = " << weight << endl;
-		createEdge(node1, node2, weight);
+		createEdge(node1, node2, edgeBeg, edgeEnd, weight);
 		node1 = node2 = NULL;
 		edgeWeightFlag = 0;
 		return;
@@ -70,9 +72,7 @@ void keyboardPress(unsigned char key, int x, int y)
 		case 'n' : printNodeList(); break;
 		case 'a' : printAdjList(); break;
 		case 'e' : printEdgeList(); break;
-		//case 'c' : clear(); break;
-		case 'b' : bfs(); break;
-		case 'd' : dfs(); break;
+		case 'd' : dijkstraFlag = 1; break;
 		default : cout << "unknown key" << endl;
 	}
 }

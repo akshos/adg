@@ -70,12 +70,10 @@ void initializeOpenGL(int argc, char **argv)
 
 void render()
 {
-	cout << "started render" << endl;
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	drawAllNodesEdges();
 	glFlush();
-	cout << "finished render" << endl;
 }
 
 void boundaryFill( int x, int y, COLOR fillColor)
@@ -142,7 +140,6 @@ void floodFill( int x, int y, COLOR fillColor)
 
 void colorFill( int x, int y, COLOR fillColor )
 {
-	cout << "Filling color at postion x=" << x << " y=" << y << endl;
 	//boundaryFill(x, y, fillColor);
 	floodFill(x, y, fillColor);
 }
@@ -328,10 +325,8 @@ void drawNode(NODE *node)
 
 void changeNodeColor(NODE *node, COLOR color)
 {
-	cout << "Changing node color: " << node->id << endl;
 	node->color = color;
 	render();
-	cout << "Changed node color: " << node->id << endl;
 }
 
 void addNode( int xCenter, int yCenter )
@@ -345,9 +340,11 @@ void addNode( int xCenter, int yCenter )
 	newNode->f = 0;
 	newNode->parent = NULL;
 	newNode->adjListHeader = NULL;
+	newNode->pedge = NULL;
 	//drawNode(newNode);
 	addAdjListHeader(newNode);
 	currID = (char)((int)currID + 1);
+	nodeCount++;
 	render();
 }	
 
@@ -388,7 +385,7 @@ void addAdjListHeader(NODE *node)
 	}
 }		
 
-void addAdjListEdge(NODE *node1, NODE *node2, EDGE *edge, int weight)
+void addAdjListEdge(EDGE *edge)
 {
 	ADJ_LIST *header;
 	//add node2 to adj list of node1
@@ -396,35 +393,23 @@ void addAdjListEdge(NODE *node1, NODE *node2, EDGE *edge, int weight)
 	newAdj->down = NULL;
 	newAdj->next = NULL;
 	newAdj->last = NULL;
-	newAdj->weight = weight;
-	newAdj->node = node2;
+	newAdj->node = edge->node2;
 	newAdj->edge = edge;
-	header = node1->adjListHeader;
+	header = edge->node1->adjListHeader;
 	header->last->next = newAdj;
-	header->last = newAdj;
-	//add node1 to adj list of node2
-	newAdj = new ADJ_LIST;
-	newAdj->down = NULL;
-	newAdj->next = NULL;
-	newAdj->last = NULL;
-	newAdj->weight = weight;
-	newAdj->node = node1;
-	newAdj->edge = edge;
-	header = node2->adjListHeader;
-	header->last->next = newAdj;
-	header->last = newAdj;		
+	header->last = newAdj;	
 }
 
-void drawEdge(NODE *node1, NODE *node2, COLOR color, int weight)
+void drawEdge(EDGE *edge, COLOR color, int weight)
 {
-	drawLine(node1->xCenter, node1->yCenter, node2->xCenter, node2->yCenter, color, EDGE_WIDTH);
+	drawLine(edge->edgeBeg.x, edge->edgeBeg.y, edge->edgeEnd.x, edge->edgeEnd.y, color, EDGE_WIDTH);
 	int x, y;
-	x = node1->xCenter + (node2->xCenter - node1->xCenter)/2;
-	y = node1->yCenter + (node2->yCenter - node1->yCenter)/2;
+	x = edge->edgeBeg.x + 0.7*(edge->edgeEnd.x - edge->edgeBeg.x);
+	y = edge->edgeBeg.y + 0.7*(edge->edgeEnd.y - edge->edgeBeg.y);
 	drawCharacter(x+5, y+5, (char)('0' + weight), BLUE);
 }
 
-void createEdge(NODE *node1, NODE *node2, int weight)
+void createEdge(NODE *node1, NODE *node2, POINT edgeBeg, POINT edgeEnd, int weight)
 {
 	node1->color = BLUE;
 	node2->color = BLUE;
@@ -432,115 +417,95 @@ void createEdge(NODE *node1, NODE *node2, int weight)
 	edgeList[edgeCount].node2 = node2;
 	edgeList[edgeCount].color = BLACK;
 	edgeList[edgeCount].weight = weight;
-	addAdjListEdge(node1, node2, &edgeList[edgeCount], weight);
+	edgeList[edgeCount].edgeBeg = edgeBeg;
+	edgeList[edgeCount].edgeEnd = edgeEnd;
+	addAdjListEdge(&edgeList[edgeCount]);
 	edgeCount++;
 	render();
 }
 
 void changeEdgeColor(EDGE *edge, COLOR color)
 {
-	cout << "changing edge color..\n";
 	edge->color = color;
 	render();
-	cout << "changed edge color..\n";
 }
 
 void drawAllNodesEdges()
 {
 	for(int i = 0 ; i < edgeCount; i++)
-		drawEdge(edgeList[i].node1, edgeList[i].node2, edgeList[i].color, edgeList[i].weight);
+		drawEdge(&edgeList[i], edgeList[i].color, edgeList[i].weight);
 	for(ADJ_LIST *header = adjListBeg; header != NULL; header = header->down)
 		drawNode(header->node);
 }
-		
 
-void bfs()
+NODE *getMinNode()
 {
-	cout << "\nStarting BFS\n";
-	NODE *start = adjListBeg->node, *u, *v;
-	ADJ_LIST *adjList;
-	cout << "Start Node : " << start->id << endl;
-	sleep(1);
-	
-	cout << "Initializing Nodes...\n";
-	for( ADJ_LIST *header = adjListBeg; header != NULL; header = header->down)
+	if( adjListBeg == NULL )
+		return NULL;
+	ADJ_LIST *header = adjListBeg;
+	NODE *node, *smallest;
+	//find first non green node and set it as smallest
+	for( header; header != NULL; header = header->down )
 	{
-		u = header->node;
-		u->d = -1;
-		u->parent = NULL;
-		changeNodeColor(u, WHITE); sleep(1);
-	}
-	changeNodeColor(start, GRAY); sleep(1);
-	start->d = 0;
-	queue<NODE *> nodeQueue;
-	nodeQueue.push(start);
-	
-	while( !nodeQueue.empty() )
-	{
-		u = nodeQueue.front();
-		nodeQueue.pop();
-		changeNodeColor(u, RED); sleep(1);
-		for(adjList = u->adjListHeader->next; adjList != NULL; adjList = adjList->next)
+		node = header->node;
+		if( node->color != GREEN )
 		{
-			v = adjList->node;
-			if( v->color == WHITE )
-			{
-				v->d = u->d+1;
-				v->parent = u;
-				changeEdgeColor(adjList->edge, GREEN); usleep(50000);
-				changeNodeColor(v, GRAY); sleep(1);
-				nodeQueue.push(v);
-			}
+			smallest = node;
+			break;
+		}
+	}		
+	//find smallest non green node
+	for(header; header != NULL; header = header->down)
+	{
+		node = header->node;
+		if( (node->d < smallest->d) && (node->color != GREEN) )
+			smallest = node;
+	}
+	return smallest;
+}
+
+void initializeSingleSource(NODE *s)
+{
+	for(ADJ_LIST *header = adjListBeg; header != NULL; header = header->down)
+	{
+		header->node->d = 99;
+		header->node->parent = NULL;
+		changeNodeColor(header->node, WHITE); usleep(500000);
+	}
+	s->d = 0;
+	render(); sleep(1);
+}
+
+void relax(EDGE *edge)
+{
+	NODE *v = edge->node2, *u = edge->node1;	
+	if( v->d > (u->d + edge->weight) )
+	{
+		v->d = (u->d + edge->weight);
+		v->parent = u;
+		if( v->pedge != NULL )
+		{
+			changeEdgeColor(v->pedge, BLACK); sleep(1);
+		}
+		v->pedge = edge;
+		changeEdgeColor(edge, GREEN); sleep(1);
+		changeNodeColor(v, GRAY); sleep(1);
+	}
+}
+
+void dijkstra(NODE *s)
+{
+	NODE *u, *v;
+	initializeSingleSource(s);
+	for( int i = 0; i < nodeCount; i++ )
+	{
+		u = getMinNode();
+		cout << "Node : " << u->id << endl;
+		changeNodeColor(u, RED); sleep(1);
+		for(ADJ_LIST *adjList = u->adjListHeader->next; adjList != NULL; adjList = adjList->next)
+		{
+			relax(adjList->edge);
 		}
 		changeNodeColor(u, GREEN); sleep(1);
 	}
-	cout << "BFS finished..\n";
 }
-
-void dfs()
-{
-	cout << "\nStarting DFS\n";
-	NODE *u;
-	sleep(1);
-	
-	cout << "Initializing nodes..\n";
-	for( ADJ_LIST *header = adjListBeg; header != NULL; header = header->down )
-	{
-		u = header->node;
-		u->parent = NULL;
-		u->d = 0;
-		u->f = 0;
-		changeNodeColor(u, WHITE); sleep(1);
-	}
-	currTime = 0;
-	for( ADJ_LIST *header = adjListBeg; header != NULL; header = header->down )
-	{
-		u = header->node;
-		if( u->color == WHITE )
-		{
-			dfsVisit(u);
-		}
-	}
-}
-
-void dfsVisit(NODE *u)
-{
-	NODE *v; ADJ_LIST *adjList;
-	currTime = currTime + 1;
-	u->d = currTime;
-	changeNodeColor(u, GRAY); sleep(1);
-	for(adjList = u->adjListHeader->next; adjList != NULL; adjList = adjList->next)
-	{
-		v = adjList->node;
-		if( v->color == WHITE )
-		{
-			v->parent = u;
-			changeEdgeColor(adjList->edge, GREEN); usleep(50000);
-			dfsVisit(v);
-		}
-	}
-	currTime = currTime + 1;
-	u->f = currTime;
-	changeNodeColor(u, GREEN); sleep(1);
-}
-

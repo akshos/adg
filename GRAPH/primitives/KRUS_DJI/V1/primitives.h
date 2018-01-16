@@ -1,6 +1,7 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <queue>
+#include <vector>
 #include <cmath>
 #include <unistd.h>
 #include <stdio.h>
@@ -39,7 +40,6 @@ struct ADJ_LIST
 {
 	NODE *node;
 	EDGE *edge;
-	int weight;
 	ADJ_LIST *down, *next, *last;
 };
 
@@ -51,6 +51,7 @@ struct NODE
 	char id;
 	NODE *parent;
 	ADJ_LIST *adjListHeader;
+	EDGE *pedge;
 };
 
 struct EDGE
@@ -58,12 +59,13 @@ struct EDGE
 	COLOR color;
 	int weight;
 	NODE *node1, *node2;
+	POINT edgeBeg, edgeEnd;
 };
 
 //static variable definitions
 static EDGE edgeList[20];
 static ADJ_LIST *adjListBeg = NULL, *adjListEnd = NULL;
-static int edgeCount = 0;
+static int edgeCount = 0, nodeCount = 0;
 static char currID = 'A';
 static int currTime = 0;
 
@@ -93,14 +95,10 @@ void changeNodeColor(NODE *node, COLOR color);
 void addNode(int xCenter, int yCenter);
 NODE *getNodeByXY(int x, int y);
 void addAdjListHeader(NODE *node);
-void addAdjListEdge(NODE *node1, NODE *node2, EDGE *edge, int weight);
-void drawEdge(NODE *node1, NODE *node2, COLOR color, int weight);
-void createEdge(NODE *begNode, NODE *endNode, int weight);
+void addAdjListEdge(NODE *node1, NODE *node2, EDGE *edge);
+void drawEdge(EDGE *edge, COLOR color, int weight);
+void createEdge(NODE *begNode, NODE *endNode, POINT edgeBeg, POINT edgeEnd, int weight);
 void changeEdgeColor(EDGE *edge, COLOR color);
 void drawAllNodesEdges();
 
-//BFS related functions
-void bfs();
-void dfs();
-void dfsVisit(NODE *u);
-	
+void dijkstra(NODE *s);
