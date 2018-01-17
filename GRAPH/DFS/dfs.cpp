@@ -214,10 +214,8 @@ void drawNode(NODE *node)
 
 void changeNodeColor(NODE *node, COLOR color)
 {
-	cout << "Changing node color: " << node->id << endl;
 	node->color = color;
 	display();
-	cout << "Changed node color: " << node->id << endl;
 }
 
 void addAdjListHeader(NODE *node)
@@ -321,10 +319,8 @@ void createEdge(NODE *node1, NODE *node2)
 
 void changeEdgeColor(EDGE *edge, COLOR color)
 {
-	cout << "changing edge color..\n";
 	edge->color = color;
 	display();
-	cout << "changed edge color..\n";
 }
 
 void drawAllNodesEdges()
@@ -347,6 +343,7 @@ void dfsVisit(NODE *u)
 		if( v->color == WHITE )
 		{
 			v->parent = u;
+			cout << " --> " << v->id;
 			changeEdgeColor(adjList->edge, GREEN); usleep(50000);
 			dfsVisit(v);
 		}
@@ -377,6 +374,7 @@ void dfs()
 		u = header->node;
 		if( u->color == WHITE )
 		{
+			cout << u->id;
 			dfsVisit(u);
 		}
 	}
@@ -384,12 +382,10 @@ void dfs()
 
 void display()
 {
-	cout << "started render" << endl;
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	drawAllNodesEdges();
 	glFlush();
-	cout << "finished render" << endl;
 }
 
 NODE *node1 = NULL, *node2 = NULL;

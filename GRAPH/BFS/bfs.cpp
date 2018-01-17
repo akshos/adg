@@ -400,7 +400,8 @@ void bfs()
 	while( !nodeQueue.empty() )
 	{
 		u = nodeQueue.front();
-		nodeQueue.pop();
+		nodeQueue.pop
+		cout << u->id << " --> ";
 		changeNodeColor(u, RED); sleep(1);
 		for(adjList = u->adjListHeader->next; adjList != NULL; adjList = adjList->next)
 		{
@@ -409,12 +410,14 @@ void bfs()
 			{
 				v->d = u->d+1;
 				v->parent = u;
+				cout << v-id << " ";
 				changeEdgeColor(adjList->edge, GREEN); usleep(50000);
 				changeNodeColor(v, GRAY); sleep(1);
 				nodeQueue.push(v);
 			}
 		}
 		changeNodeColor(u, GREEN); sleep(1);
+		cout << endl;
 	}
 	cout << "BFS finished..\n";
 }
