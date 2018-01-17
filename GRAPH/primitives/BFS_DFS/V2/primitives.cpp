@@ -70,12 +70,10 @@ void initializeOpenGL(int argc, char **argv)
 
 void render()
 {
-	cout << "started render" << endl;
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	drawAllNodesEdges();
 	glFlush();
-	cout << "finished render" << endl;
 }
 
 void boundaryFill( int x, int y, COLOR fillColor)
@@ -328,10 +326,8 @@ void drawNode(NODE *node)
 
 void changeNodeColor(NODE *node, COLOR color)
 {
-	cout << "Changing node color: " << node->id << endl;
 	node->color = color;
 	render();
-	cout << "Changed node color: " << node->id << endl;
 }
 
 void addNode( int xCenter, int yCenter )
@@ -439,10 +435,8 @@ void createEdge(NODE *node1, NODE *node2, int weight)
 
 void changeEdgeColor(EDGE *edge, COLOR color)
 {
-	cout << "changing edge color..\n";
 	edge->color = color;
 	render();
-	cout << "changed edge color..\n";
 }
 
 void drawAllNodesEdges()
@@ -479,6 +473,7 @@ void bfs()
 	{
 		u = nodeQueue.front();
 		nodeQueue.pop();
+		cout << u->id << " --> ";
 		changeNodeColor(u, RED); sleep(1);
 		for(adjList = u->adjListHeader->next; adjList != NULL; adjList = adjList->next)
 		{
@@ -486,12 +481,14 @@ void bfs()
 			if( v->color == WHITE )
 			{
 				v->d = u->d+1;
+				cout << v->id << " ";
 				v->parent = u;
 				changeEdgeColor(adjList->edge, GREEN); usleep(50000);
 				changeNodeColor(v, GRAY); sleep(1);
 				nodeQueue.push(v);
 			}
 		}
+		cout << endl;
 		changeNodeColor(u, GREEN); sleep(1);
 	}
 	cout << "BFS finished..\n";
@@ -518,9 +515,13 @@ void dfs()
 		u = header->node;
 		if( u->color == WHITE )
 		{
+			cout << u->id;
+			fflush(stdout);
 			dfsVisit(u);
+			cout << endl;
 		}
 	}
+	cout << "DFS finished..." << endl;
 }
 
 void dfsVisit(NODE *u)
@@ -528,6 +529,7 @@ void dfsVisit(NODE *u)
 	NODE *v; ADJ_LIST *adjList;
 	currTime = currTime + 1;
 	u->d = currTime;
+	
 	changeNodeColor(u, GRAY); sleep(1);
 	for(adjList = u->adjListHeader->next; adjList != NULL; adjList = adjList->next)
 	{
@@ -535,6 +537,8 @@ void dfsVisit(NODE *u)
 		if( v->color == WHITE )
 		{
 			v->parent = u;
+			cout << " --> " << v->id;
+			fflush(stdout);
 			changeEdgeColor(adjList->edge, GREEN); usleep(50000);
 			dfsVisit(v);
 		}
