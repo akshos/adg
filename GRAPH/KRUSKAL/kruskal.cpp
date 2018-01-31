@@ -491,11 +491,6 @@ void makeSet(NODE *node)
 	newHeader->node = node;
 	newHeader->up = newHeader->down = newHeader->next = NULL;
 	newHeader->last = newHeader;
-	if( setHeaderBeg == NULL )
-	{
-		setHeaderBeg = setHeaderEnd = newHeader;
-		return;
-	}
 	setHeaderEnd->down = newHeader;
 	newHeader->up = setHeaderEnd;
 	setHeaderEnd = newHeader;
@@ -503,7 +498,7 @@ void makeSet(NODE *node)
 
 SET *findSet(NODE *findNode)
 {
-	SET *setHeader = setHeaderBeg, *set;
+	SET *setHeader = setHeaderBeg->down, *set;
 	NODE *node;
 	while( setHeader != NULL )
 	{
@@ -575,16 +570,46 @@ void sortEdges()
 	cout << endl;
 }
 
+void initSet()
+{
+	setHeaderBeg = new SET;
+	setHeaderBeg->node = NULL;
+	setHeaderBeg->next = setHeaderBeg->down = setHeaderBeg->up = setHeaderBeg->last = NULL;
+	setHeaderEnd = setHeaderBeg;
+}
+
+void printSet()
+{
+	SET *setHeader = setHeaderBeg->down, *set;
+	NODE *node;
+	cout << "\nSet: " << endl;
+	while( setHeader != NULL )
+	{
+		set = setHeader;
+		while(set != NULL)
+		{
+			cout << set->node->id << " ";
+			set = set->next;
+		}
+		setHeader = setHeader->down;
+		cout << endl;
+	}
+}
+
 void kruskal()
 {
+	cout << "Starting MST Kruskal..." << endl;
+	sleep(1);
 	NODE *u, *v;
 	SET *uSet, *vSet;
+	initSet();
 	for( ADJ_LIST *header = adjListBeg; header != NULL; header = header->down)
 	{
 		u = header->node;
 		makeSet(u);
 	}
 	sortEdges();
+	printSet();
 	for( int i = 0; i < edgeCount; i++ )
 	{
 		uSet = findSet(edgeList[i].node1);
@@ -593,6 +618,7 @@ void kruskal()
 		{
 			cout << "Taking edge : " << edgeList[i].node1->id << "--" << edgeList[i].node2->id << ":" << edgeList[i].weight << endl;
 			UNION(uSet, vSet);
+			printSet();
 			changeEdgeColor(&edgeList[i], GREEN);
 			sleep(1);
 			changeNodeColor(edgeList[i].node1, GREEN);
@@ -601,6 +627,7 @@ void kruskal()
 			sleep(1);
 		}
 	}
+	cout << "Finished MST Kruskal..." << endl;
 }
 
 NODE *node1 = NULL, *node2 = NULL;
