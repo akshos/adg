@@ -52,17 +52,6 @@ void initializeOpenGL(int argc, char **argv);
 void render();
 void drawLine( POINT a, POINT b, COLOR color, int width = 1);
 void drawLine( int x1, int y1, int x2, int y2, COLOR color, int width = 1);
-void drawCircle( POINT center, int radius, COLOR fillColor );
-void drawCircle( int xCenter, int yCenter, int radius, COLOR fillColor );
-void circlePlotPoints(int xCenter, int yCenter, int x, int y );
-void drawCharacter(int x, int y, char ch, COLOR color);
-void drawString(int x, int y, char *str, COLOR color);
-int operator==(unsigned char color_array[], COLOR color);
-int operator!=(unsigned char color_array[], COLOR color);
-int operator!=(COLOR c1, COLOR c2);
-int operator==(COLOR c1, COLOR c2);
-int operator!=(float color_array[], COLOR color);
-int operator==(float color_array[], COLOR color);
 
 void addLine(POINT beg, POINT end);
 void drawInnerWindow();
