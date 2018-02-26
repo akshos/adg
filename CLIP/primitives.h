@@ -8,6 +8,18 @@
 #define RADIUS 30
 #define EDGE_WIDTH 2
 
+#define XW_MIN 170
+#define XW_MAX 600
+#define YW_MIN 120
+#define YW_MAX 400
+
+#define INSIDE 0x00
+#define LEFT 0x01
+#define RIGHT 0x02
+#define BOTTOM 0x03
+#define TOP 0x04
+
+
 using namespace std;
 
 struct COLOR
@@ -32,40 +44,8 @@ struct LINE
 	POINT beg, end;
 };
 
-struct NODE;
-struct EDGE;
-
-struct ADJ_LIST
-{
-	NODE *node;
-	EDGE *edge;
-	int weight;
-	ADJ_LIST *down, *next, *last;
-};
-
-struct NODE
-{
-	int xCenter, yCenter;
-	int d, f;
-	COLOR color;
-	char id;
-	NODE *parent;
-	ADJ_LIST *adjListHeader;
-};
-
-struct EDGE
-{
-	COLOR color;
-	int weight;
-	NODE *node1, *node2;
-};
-
-//static variable definitions
-static EDGE edgeList[20];
-static ADJ_LIST *adjListBeg = NULL, *adjListEnd = NULL;
-static int edgeCount = 0;
-static char currID = 'A';
-static int currTime = 0;
+static LINE lineList[20];
+static int lineCount = 0;
 
 //OpenGL specific functions
 void initializeOpenGL(int argc, char **argv);
@@ -84,23 +64,8 @@ int operator==(COLOR c1, COLOR c2);
 int operator!=(float color_array[], COLOR color);
 int operator==(float color_array[], COLOR color);
 
-//Graph specific functions
-void printNodeList();
-void printAdjList();
-void printEdgeList();
-void drawNode(NODE *node);
-void changeNodeColor(NODE *node, COLOR color);
-void addNode(int xCenter, int yCenter);
-NODE *getNodeByXY(int x, int y);
-void addAdjListHeader(NODE *node);
-void addAdjListEdge(NODE *node1, NODE *node2, EDGE *edge, int weight);
-void drawEdge(NODE *node1, NODE *node2, COLOR color, int weight);
-void createEdge(NODE *begNode, NODE *endNode, int weight);
-void changeEdgeColor(EDGE *edge, COLOR color);
-void drawAllNodesEdges();
-
-//BFS related functions
-void bfs();
-void dfs();
-void dfsVisit(NODE *u);
-	
+void addLine(POINT beg, POINT end);
+void drawInnerWindow();
+void drawAllLines();
+void lineClip();
+void cohenSutherland(LINE *line);
