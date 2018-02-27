@@ -89,6 +89,7 @@ void lineClip()
 	{
 		cohenSutherland(line);
 	}
+	render();
 }
 
 int getMask(POINT pnt)
@@ -101,12 +102,62 @@ int getMask(POINT pnt)
 	return mask;
 }
 
+void clipLine(POINT *p1, POINT *p2, int mask)
+{
+	if( (mask&LEFT) ) 
+	{
+		p1->y = p1->y + (p2->y - p1->y)*(float)(XW_MIN - p1->x)/(float)(p2->x - p1->x);
+		p1->x = XW_MIN;
+	}else if( (mask&RIGHT) )
+	{
+		p1->y = p1->y + (p2->y - p1->y)*(float)(XW_MAX - p1->x)/(float)(p2->x - p1->x);
+		p1->x = XW_MAX;
+	}else if( (mask&TOP) )
+	{
+		p1->x = p1->x + (p2->x - p1->x)*(float)(YW_MAX - p1->y)/(float)(p2->y - p1->y);
+		p1->y = YW_MAX;
+	}else if( (mask&BOTTOM) )
+	{
+		p1->x = p1->x + (p2->x - p1->x)*(float)(YW_MIN - p1->y)/(float)(p2->y - p1->y);
+		p1->y = YW_MIN;
+	}
+}
+
 void cohenSutherland(LINE *line)
 {
 	POINT beg = line->beg;
 	POINT end = line->end;
 	int begMask = getMask(beg);
 	int endMask = getMask(end);
-	cout << "Beg Point mask : " << begMask << endl;
-	cout << "End Point mask : " << endMask << endl;
+
+	if( (begMask|endMask) == 0)
+	{
+		cout << "Line completly inside, no clip" << endl;
+	}
+	else if( (begMask&endMask) != 0)
+	{
+		cout << "Line completly outside, discard" << endl;
+		beg.x = beg.y =  0;
+		end.x = end.y = 0;
+	}
+	else
+	{
+		while(begMask != 0 || endMask != 0)
+		{
+			cout << "Beg Point mask : " << begMask << endl;
+			cout << "End Point mask : " << endMask << endl;
+			if(begMask != 0)
+			{
+				clipLine(&beg, &end, begMask);
+				begMask = getMask(beg);
+			}
+			if(endMask != 0)
+			{
+				clipLine(&end, &beg, endMask);
+				endMask = getMask(end);
+			}
+		}
+	}
+	line->beg = beg;
+	line->end = end;
 }

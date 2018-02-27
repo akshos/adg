@@ -16,8 +16,8 @@
 #define INSIDE 0x00
 #define LEFT 0x01
 #define RIGHT 0x02
-#define BOTTOM 0x03
-#define TOP 0x04
+#define BOTTOM 0x04
+#define TOP 0x08
 
 
 using namespace std;
