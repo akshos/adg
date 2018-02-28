@@ -616,6 +616,11 @@ void mouseClick(int button, int state, int x, int y)
 			if( dijkstraFlag == 1 )
 			{
 				NODE *start = getNodeByXY(x, 500-y);
+				if( start == NULL )
+				{
+					cout << "Please click on a node.." << endl;
+					return;
+				}
 				dijkstra(start);
 				dijkstraFlag = 0;
 				return;
