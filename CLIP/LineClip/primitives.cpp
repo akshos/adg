@@ -130,19 +130,21 @@ void cohenSutherland(LINE *line)
 	int begMask = getMask(beg);
 	int endMask = getMask(end);
 
-	if( (begMask|endMask) == 0)
+	while(begMask != 0 || endMask != 0)
 	{
-		cout << "Line completly inside, no clip" << endl;
-	}
-	else if( (begMask&endMask) != 0)
-	{
-		cout << "Line completly outside, discard" << endl;
-		beg.x = beg.y =  0;
-		end.x = end.y = 0;
-	}
-	else
-	{
-		while(begMask != 0 || endMask != 0)
+		if( (begMask|endMask) == 0)
+		{
+			cout << "Line completly inside, no clip" << endl;
+			break;
+		}
+		else if( (begMask&endMask) != 0)
+		{
+			cout << "Line completly outside, discard" << endl;
+			beg.x = beg.y =  0;
+			end.x = end.y = 0;
+			break;
+		}
+		else
 		{
 			cout << "Beg Point mask : " << begMask << endl;
 			cout << "End Point mask : " << endMask << endl;
