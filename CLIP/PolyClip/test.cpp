@@ -1,38 +1,22 @@
 #include "primitives.h"
 
 POINT begPoint, endPoint;
-int flag = 0;
+
+int polyFlag = 0;
 
 void selectPoint(int x, int y)
 {
-	if( flag == 0 )
-	{
-		begPoint.x = x;
-		begPoint.y = y;
-		flag = (flag+1)%2;
-	}
-	else if( flag == 1 )
-	{
-		endPoint.x = x;
-		endPoint.y = y;
-		if(begPoint.x != endPoint.x && begPoint.y != endPoint.y)
-		{
-			addLine(begPoint, endPoint);
-			flag = (flag+1)%2;
-		}
-	}
-	else
-	{
-		cout << "ERROR : invalid flag value in selectPoint";
-		exit(1);
-	}
+	cout << "selecting point " << poly.vertexCount+1 << " : " << x << " , " << y << endl;
+	poly.vertex[poly.vertexCount].x = x;
+	poly.vertex[poly.vertexCount].y = y;
+	poly.vertexCount++;
 }
 
 void mouseClick(int button, int state, int x, int y)
 {
 	if( button == GLUT_LEFT_BUTTON )
 	{
-		if( state == GLUT_DOWN )
+		if( state == GLUT_DOWN && polyFlag == 0)
 		{
 			selectPoint(x, 500-y);
 		}
@@ -43,11 +27,11 @@ void keyboardPress(unsigned char key, int x, int y)
 {
 	switch(key)
 	{
+		case 'd': polyFlag = 1; render(); break;
 		case 'c': lineClip(); break;
 		default : cout << "Invalid Key" << endl;
 	}
 }
-
 
 int main(int argc, char **argv)
 {

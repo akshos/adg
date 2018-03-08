@@ -38,13 +38,7 @@ void drawLine( int x1, int y1, int x2, int y2, COLOR color, int width)
 	glEnd();
 }
 
-void addLine(POINT beg, POINT end)
-{
-	lineList[lineCount].beg = beg;
-	lineList[lineCount].end = end;
-	lineCount++;
-	render();
-}
+
 
 void drawInnerWindow()
 {
@@ -64,13 +58,15 @@ void drawInnerWindow()
 	glEnd();
 }
 
-void drawAllLines()
+void drawPolygon()
 {
-	LINE *line = lineList;
-	for( int i = 0; i < lineCount; i++, line++ )
-	{
-		drawLine(line->beg, line->end, BLACK);
-	}
+	cout << "drawing polygon" << endl;
+	glColor3f(GREEN.red, GREEN.green, GREEN.blue);
+	glBegin(GL_QUADS);
+		for(int i = 0; i < poly.vertexCount; i++)
+			glVertex2i(poly.vertex[i].x, poly.vertex[i].y);
+		glVertex2i(poly.vertex[0].x, poly.vertex[0].y);
+	glEnd();
 }
 
 void render()
@@ -78,7 +74,7 @@ void render()
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	drawInnerWindow();
-	drawAllLines();
+	drawPolygon();
 	glFlush();
 }
 

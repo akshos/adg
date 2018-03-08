@@ -44,6 +44,13 @@ struct LINE
 	POINT beg, end;
 };
 
+struct POLYGON
+{
+	POINT vertex[10];
+	int vertexCount;
+};
+
+static POLYGON poly = { { {0,0} }, 0};
 static LINE lineList[20];
 static int lineCount = 0;
 
@@ -55,6 +62,6 @@ void drawLine( int x1, int y1, int x2, int y2, COLOR color, int width = 1);
 
 void addLine(POINT beg, POINT end);
 void drawInnerWindow();
-void drawAllLines();
+void drawPolygon();
 void lineClip();
 void cohenSutherland(LINE *line);
