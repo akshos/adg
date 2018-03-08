@@ -574,7 +574,8 @@ void dijkstra(NODE *s)
 		{
 			relax(adjList->edge);
 		}
-		changeNodeColor(u, GREEN); sleep(1);
+		if(u == s || u->parent != NULL ) 
+			changeNodeColor(u, GREEN); sleep(1);
 	}
 }
 

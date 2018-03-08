@@ -254,11 +254,6 @@ void drawLine( int x1, int y1, int x2, int y2, COLOR color, int width)
 	glEnd();
 }
 
-//void drawCircle( POINT center, int radius, COLOR fillColor )
-//{
-//	drawCircle(center.x, center.y, radius, fillColor);
-//}
-
 void circlePlotPoints(int xCenter, int yCenter, int x, int y )
 {
 	glColor3f(0.0, 0.0, 0.0);
@@ -621,6 +616,11 @@ void mouseClick(int button, int state, int x, int y)
 			if( dijkstraFlag == 1 )
 			{
 				NODE *start = getNodeByXY(x, 500-y);
+				if( start == NULL )
+				{
+					cout << "Please click on a node.." << endl;
+					return;
+				}
 				dijkstra(start);
 				dijkstraFlag = 0;
 				return;
