@@ -8,9 +8,16 @@ void render()
 {
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	drawInnerWindow();
 	drawPolygon(poly);
+	drawInnerWindow();
 	glFlush();
+}
+
+void reset()
+{
+	poly.vertexCount = 0;
+	polyFlag = 0;
+	render();
 }
 
 void selectPoint(int x, int y)
@@ -38,6 +45,7 @@ void keyboardPress(unsigned char key, int x, int y)
 	{
 		case 'd': polyFlag = 1; render(); break;
 		case 'c': polyClip(&poly); break;
+		case 'r': reset(); break;
 		default : cout << "Invalid Key" << endl;
 	}
 }
