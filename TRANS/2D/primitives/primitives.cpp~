@@ -161,8 +161,8 @@ void scale(POLYGON *poly, float sx, float sy)
 void shear(POLYGON *poly, float shx, float shy)
 {
 	printVertices(*poly);
-	float shmat[3][3] = {{1,		shx,		0},
-					 {shy,	1,		0},
+	float shmat[3][3] = {{1,		shy,		0},
+					 {shx,	1,		0},
 					 {0,		0,		1}};
 	int v[3] = {0, 0, 1};
 	for( int i = 0; i < poly->vertexCount; i++ )

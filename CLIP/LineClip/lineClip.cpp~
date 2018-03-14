@@ -1,8 +1,3 @@
-/*
-AUTHOR : Akshay Venugopal
-PROGRAM : Line Clipping
-*/
-
 #include <GL/glut.h>
 #include <iostream>
 #include <queue>

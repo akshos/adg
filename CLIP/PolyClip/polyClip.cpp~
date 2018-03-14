@@ -171,15 +171,12 @@ void polyClip(POLYGON *poly)
 	cout << "\nLeft Clipper" << endl; 
 	clipper(poly, XW_MIN, 1, HORIZONTAL);
 	printVertices(*poly);
-	sleep(2); render();
 	cout << "\nRight Clipper" << endl;
 	clipper(poly, XW_MAX, -1, HORIZONTAL);
 	printVertices(*poly);
-	sleep(2); render();
 	cout << "\nBottom Clipper" << endl;
 	clipper(poly, YW_MIN, 1, VERTICAL);
 	printVertices(*poly);
-	sleep(2); render();
 	cout << "\nTop Clipper" << endl;
 	clipper(poly, YW_MAX, -1, VERTICAL);
 	printVertices(*poly);

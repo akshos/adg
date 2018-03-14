@@ -44,7 +44,7 @@ void trans()
 	char op = 'y';
 	do
 	{
-		cout << "(t): Translate (r):Rotate (s):Scale (h):Shear (f):Finish" << endl;
+		cout << "(t): Translate (r):Rotate (s):Scale (f):Finish" << endl;
 		cout << "Option : ";
 		cin >> op;
 		switch(op)

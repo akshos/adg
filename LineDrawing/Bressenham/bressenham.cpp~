@@ -131,7 +131,7 @@ void drawLine( int x1, int y1, int x2, int y2 )
 	float dx,dy,m;
 	dx=x2-x1;
 	dy=y2-y1;
-	m=(float)dy/(float)dx;
+	m=dy/dx;
 	if (dx == 0)
 		draw_vertical(x1,y1,x2,y2);
 	if (dy == 0)

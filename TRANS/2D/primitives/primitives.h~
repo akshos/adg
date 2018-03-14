@@ -58,6 +58,4 @@ void drawPolygon(POLYGON poly);
 void translate(POLYGON *poly, int tx, int ty);
 void rotate(POLYGON *poly, int xCenter, int yCenter, float angle);
 void scale(POLYGON *poly, float sx, float sy);
-void shear(POLYGON *poly, float shx, float shy);
-
 void render();
