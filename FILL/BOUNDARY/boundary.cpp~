@@ -80,13 +80,14 @@ void drawPolygon(POLYGON poly)
 {
 	cout << "drawing polygon " << poly.vertexCount <<  endl;
 	glColor3f(BLACK.red, BLACK.green, BLACK.blue);
-	glBegin(GL_LINES);
-		for(int i = 0; i < poly.vertexCount - pad; i++)
-		{
+	for(int i = 0; i < poly.vertexCount - pad; i++)
+	{
+			glBegin(GL_LINES);
 			glVertex2i(poly.vertex[i].x, poly.vertex[i].y);
 			glVertex2i(poly.vertex[(i+1)%poly.vertexCount].x, poly.vertex[(i+1)%poly.vertexCount].y);
-		}
-	glEnd();
+			glEnd();
+	}
+	
 }
 
 void boundaryFill( int x, int y, COLOR fillColor)
@@ -148,6 +149,9 @@ void reset()
 {
 	poly.vertexCount = 0;
 	polyFlag = 0;
+	fillx = 0;
+	filly = 0;
+	pad = 1;
 	render();
 }
 

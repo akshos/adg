@@ -1,6 +1,6 @@
 /*
 AUTHOR : Akshay Venugopal
-PROGRAM : Boundary Fill
+PROGRAM : Flood Fill
 Roll No: 207
 */
 
@@ -76,6 +76,23 @@ int operator!=(float color_array[], COLOR color)
 	return 1;
 }
 
+int operator==(float color_array[], COLOR color)
+{
+	if( color_array[0] == color.red )
+		if( color_array[1] == color.green )
+			if( color_array[2] == color.blue )
+				return 1;
+	return 0;
+}
+
+int operator==(COLOR c1, COLOR c2)
+{
+	if( c1.red == c2.red && c1.green == c2.green && c1.blue == c2.blue )
+		return 1;
+	return 0;
+}
+
+
 void drawPolygon(POLYGON poly)
 {
 	cout << "drawing polygon " << poly.vertexCount <<  endl;
@@ -85,6 +102,8 @@ void drawPolygon(POLYGON poly)
 		{
 			glVertex2i(poly.vertex[i].x, poly.vertex[i].y);
 			glVertex2i(poly.vertex[(i+1)%poly.vertexCount].x, poly.vertex[(i+1)%poly.vertexCount].y);
+			if( i % 5 == 0 )
+				glFlush();
 		}
 	glEnd();
 }
