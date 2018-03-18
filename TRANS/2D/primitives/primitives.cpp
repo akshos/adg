@@ -117,7 +117,7 @@ void rotate(POLYGON *poly, int xCenter, int yCenter, float angle)
 	if(xCenter != 0 || yCenter != 0)
 	{
 		translate(poly, -xCenter, -yCenter);
-		sleep(1);
+		//sleep(1);
 	}
 	float rmat[3][3] = {{cos(angle),	-1*sin(angle),		0},
 					{sin(angle),	cos(angle),		0},
@@ -134,7 +134,7 @@ void rotate(POLYGON *poly, int xCenter, int yCenter, float angle)
 	render();
 	if( xCenter != 0 || yCenter != 0 )
 	{
-		sleep(1);
+		//sleep(1);
 		translate(poly, xCenter, yCenter);
 	}
 }
