@@ -232,6 +232,15 @@ void selectPoint(int x, int y)
     x1 = x2; y1 = y2;
 }
 
+void reset()
+{
+    for( int i =0; i < edgeCount; i++ )
+    {
+        edgeList[i].processed = false;
+    }
+    render();
+}
+
 void mouseClick(int button, int state, int x, int y)
 {
     if( button == GLUT_LEFT_BUTTON && state == GLUT_DOWN )
@@ -254,6 +263,7 @@ void keyboardPress(unsigned char key, int x, int y)
                     break;
         case 'p': printEdgeList(); break;
         case 'f': polyFill(); break;
+        case 'r': reset(); break;
         default : cout << "\nInvalid Key\n";
     }
 }
