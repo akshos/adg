@@ -87,7 +87,7 @@ void drawPolygon(POLYGON poly)
 			glVertex2i(poly.vertex[(i+1)%poly.vertexCount].x, poly.vertex[(i+1)%poly.vertexCount].y);
 		glEnd();
 	}
-}
+	}
 
 void boundaryFill( int x, int y, COLOR fillColor)
 {

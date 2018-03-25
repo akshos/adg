@@ -88,35 +88,35 @@ void drawPolygon()
 	glColor3f(0, 0.6, 0);
 	glBegin(GL_QUADS);
 		//front face
-		glVertex3f(0, 0, 0);
-		glVertex3f(0, 0.4, 0);
-		glVertex3f(0.4, 0.4, 0);
-		glVertex3f(0.4 , 0, 0);
-		//back face
-		glVertex3f(0, 0, -0.4);
-		glVertex3f(0, 0.4, -0.4);
-		glVertex3f(0.4, 0.4, -0.4);
-		glVertex3f(0.4, 0, -0.4);
-		//top face
-		glVertex3f(0, 0.4, -0.4);
-		glVertex3f(0, 0.4, 0);
-		glVertex3f(0.4, 0.4, 0);
-		glVertex3f(0.4, 0.4, -0.4);
-		//right face
-		glVertex3f(0.4, 0, -0.4);
-		glVertex3f(0.4, 0.4, -0.4);
-		glVertex3f(0.4, 0.4, 0);
-		glVertex3f(0.4, 0, 0);
-		//left face
-		glVertex3f(0, 0, -0.4);
-		glVertex3f(0, 0.4, -0.4);
-		glVertex3f(0, 0.4, 0);
-		glVertex3f(0, 0, 0);
-		//bottom face
-		glVertex3f(0, 0, -0.4);
-		glVertex3f(0, 0, 0);
-		glVertex3f(0.4, 0, 0);
-		glVertex3f(0.4, 0, -0.4);	
+		glVertex3f(poly.vertex[0].x, poly.vertex[0].y, poly.vertex[0].z);
+		glVertex3f(poly.vertex[1].x, poly.vertex[1].y, poly.vertex[1].z);
+		glVertex3f(poly.vertex[2].x, poly.vertex[2].y, poly.vertex[2].z);
+		glVertex3f(poly.vertex[3].x, poly.vertex[3].y, poly.vertex[3].z);
+		//back facez
+		glVertex3f(poly.vertex[4].x, poly.vertex[4].y, poly.vertex[4].z);
+		glVertex3f(poly.vertex[5].x, poly.vertex[5].y, poly.vertex[5].z);
+		glVertex3f(poly.vertex[6].x, poly.vertex[6].y, poly.vertex[6].z);
+		glVertex3f(poly.vertex[7].x, poly.vertex[7].y, poly.vertex[7].z);
+		//top facez		
+		glVertex3f(poly.vertex[5].x, poly.vertex[5].y, poly.vertex[5].z);
+		glVertex3f(poly.vertex[1].x, poly.vertex[1].y, poly.vertex[1].z);
+		glVertex3f(poly.vertex[2].x, poly.vertex[2].y, poly.vertex[2].z);
+		glVertex3f(poly.vertex[6].x, poly.vertex[6].y, poly.vertex[6].z);
+		//right facez		
+		glVertex3f(poly.vertex[7].x, poly.vertex[7].y, poly.vertex[7].z);
+		glVertex3f(poly.vertex[6].x, poly.vertex[6].y, poly.vertex[6].z);
+		glVertex3f(poly.vertex[2].x, poly.vertex[2].y, poly.vertex[2].z);
+		glVertex3f(poly.vertex[3].x, poly.vertex[3].y, poly.vertex[3].z);
+		//left facez		
+		glVertex3f(poly.vertex[4].x, poly.vertex[4].y, poly.vertex[4].z);
+		glVertex3f(poly.vertex[5].x, poly.vertex[5].y, poly.vertex[5].z);
+		glVertex3f(poly.vertex[1].x, poly.vertex[1].y, poly.vertex[1].z);
+		glVertex3f(poly.vertex[0].x, poly.vertex[0].y, poly.vertex[0].z);
+		//bottom facez		
+		glVertex3f(poly.vertex[4].x, poly.vertex[4].y, poly.vertex[4].z);
+		glVertex3f(poly.vertex[0].x, poly.vertex[0].y, poly.vertex[0].z);
+		glVertex3f(poly.vertex[3].x, poly.vertex[3].y, poly.vertex[3].z);
+		glVertex3f(poly.vertex[7].x, poly.vertex[7].y, poly.vertex[7].z);	
 	glEnd();
 	glColor3f(0, 0, 0);
 	glBegin(GL_LINES);
