@@ -1,4 +1,5 @@
 .vscode/launch.json
-CLIP/test.o
+*.o
+*~
 .vscode/settings.json
 .vscode/settings.json
