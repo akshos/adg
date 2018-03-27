@@ -1,5 +1,0 @@
-LIBS = -lglut -lGL -lGLU
-
-SOURCES = test.cpp primitives.cpp
-test: test.cpp primitives.cpp primitives.h
-	$(CXX) -c $(SOURCES) -o $@.o $(LIBS)
