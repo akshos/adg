@@ -58,6 +58,9 @@ void initializeOpenGL(int argc, char **argv)
 	
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClearDepth(1.0f);
+	//glOrtho(0, 300, 0, 300, 0, 300);
+	gluPerspective(1, 1, 200, 100);
+	glViewport(0, 0, 600, 600);
 	glEnable(GL_DEPTH_TEST);
 	//glDepthFunc(GL_LEQUAL);
 }
@@ -291,10 +294,9 @@ void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
-	
 	glLoadIdentity(); //this call should always come before gluOrtho2D
 	glClearColor(1.0, 1.0, 1.0, 0.0);
-	gluLookAt(0.4, 0.5, 0.3, 0, 0, 0, 0, 1, 0);
+	gluLookAt(0.2, 0.3, 0.5, 0, 0, 0, 0, 0.9, 0);
 	glPushMatrix();
 	drawPolygon();
 	//drawAxis();
