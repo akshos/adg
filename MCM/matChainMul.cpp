@@ -1,3 +1,9 @@
+/*
+Author : Akshay Venugopal
+Roll No : 207
+Program : Matrix Chain Multiplication
+*/
+
 #include <iostream>
 #include <cstdlib>
 
@@ -72,3 +78,5 @@ int main()
     cout << endl;
     return 0;
 }
+
+//-----------------------END OF PROGRAM--------------------//
