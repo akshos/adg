@@ -55,14 +55,17 @@ void initializeOpenGL(int argc, char **argv)
 	glutInitWindowPosition(50,50);
 	glutInitWindowSize(600, 600);
 	glutCreateWindow("OpenGL LAB");
-	
+	glEnable(GL_DEPTH_TEST | GL_CULL_FACE);
+	glDepthFunc(GL_GREATER);
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClearDepth(1.0f);
+	glDepthMask(GL_TRUE);
+	glFrontFace(GL_CW);
+	glCullFace(GL_BACK);
 	//glOrtho(0, 300, 0, 300, 0, 300);
 	gluPerspective(1, 1, 200, 100);
 	glViewport(0, 0, 600, 600);
-	glEnable(GL_DEPTH_TEST);
-	//glDepthFunc(GL_LEQUAL);
+	
 }
 
 void drawAxis()
@@ -90,38 +93,46 @@ void drawPolygon()
 	*/
 	glColor3f(0, 0.6, 0);
 	glBegin(GL_QUADS);
+		//back face
+		glColor3f(0.6, 0, 0);
+		glVertex3f(poly.vertex[4].x, poly.vertex[4].y, poly.vertex[4].z);
+		glVertex3f(poly.vertex[5].x, poly.vertex[5].y, poly.vertex[5].z);
+		glVertex3f(poly.vertex[6].x, poly.vertex[6].y, poly.vertex[6].z);
+		glVertex3f(poly.vertex[7].x, poly.vertex[7].y, poly.vertex[7].z);
+		
+		//left face
+		glColor3f(0.6, 0.6, 0);
+		glVertex3f(poly.vertex[4].x, poly.vertex[4].y, poly.vertex[4].z);
+		glVertex3f(poly.vertex[5].x, poly.vertex[5].y, poly.vertex[5].z);
+		glVertex3f(poly.vertex[1].x, poly.vertex[1].y, poly.vertex[1].z);
+		glVertex3f(poly.vertex[0].x, poly.vertex[0].y, poly.vertex[0].z);
+		//bottom face
+		glColor3f(0.6, 0, 0.6);		
+		glVertex3f(poly.vertex[4].x, poly.vertex[4].y, poly.vertex[4].z);
+		glVertex3f(poly.vertex[0].x, poly.vertex[0].y, poly.vertex[0].z);
+		glVertex3f(poly.vertex[3].x, poly.vertex[3].y, poly.vertex[3].z);
+		glVertex3f(poly.vertex[7].x, poly.vertex[7].y, poly.vertex[7].z);
+		//top face
+		glColor3f(0, 0, 0.6);	
+		glVertex3f(poly.vertex[5].x, poly.vertex[5].y, poly.vertex[5].z);
+		glVertex3f(poly.vertex[1].x, poly.vertex[1].y, poly.vertex[1].z);
+		glVertex3f(poly.vertex[2].x, poly.vertex[2].y, poly.vertex[2].z);
+		glVertex3f(poly.vertex[6].x, poly.vertex[6].y, poly.vertex[6].z);
 		//front face
+		glColor3f(0, 0.6, 0);
 		glVertex3f(poly.vertex[0].x, poly.vertex[0].y, poly.vertex[0].z);
 		glVertex3f(poly.vertex[1].x, poly.vertex[1].y, poly.vertex[1].z);
 		glVertex3f(poly.vertex[2].x, poly.vertex[2].y, poly.vertex[2].z);
 		glVertex3f(poly.vertex[3].x, poly.vertex[3].y, poly.vertex[3].z);
-		//back facez
-		glVertex3f(poly.vertex[4].x, poly.vertex[4].y, poly.vertex[4].z);
-		glVertex3f(poly.vertex[5].x, poly.vertex[5].y, poly.vertex[5].z);
-		glVertex3f(poly.vertex[6].x, poly.vertex[6].y, poly.vertex[6].z);
-		glVertex3f(poly.vertex[7].x, poly.vertex[7].y, poly.vertex[7].z);
-		//top facez		
-		glVertex3f(poly.vertex[5].x, poly.vertex[5].y, poly.vertex[5].z);
-		glVertex3f(poly.vertex[1].x, poly.vertex[1].y, poly.vertex[1].z);
-		glVertex3f(poly.vertex[2].x, poly.vertex[2].y, poly.vertex[2].z);
-		glVertex3f(poly.vertex[6].x, poly.vertex[6].y, poly.vertex[6].z);
-		//right facez		
+		//right face
+		glColor3f(0, 0.6, 0.6);
 		glVertex3f(poly.vertex[7].x, poly.vertex[7].y, poly.vertex[7].z);
 		glVertex3f(poly.vertex[6].x, poly.vertex[6].y, poly.vertex[6].z);
 		glVertex3f(poly.vertex[2].x, poly.vertex[2].y, poly.vertex[2].z);
 		glVertex3f(poly.vertex[3].x, poly.vertex[3].y, poly.vertex[3].z);
-		//left facez		
-		glVertex3f(poly.vertex[4].x, poly.vertex[4].y, poly.vertex[4].z);
-		glVertex3f(poly.vertex[5].x, poly.vertex[5].y, poly.vertex[5].z);
-		glVertex3f(poly.vertex[1].x, poly.vertex[1].y, poly.vertex[1].z);
-		glVertex3f(poly.vertex[0].x, poly.vertex[0].y, poly.vertex[0].z);
-		//bottom facez		
-		glVertex3f(poly.vertex[4].x, poly.vertex[4].y, poly.vertex[4].z);
-		glVertex3f(poly.vertex[0].x, poly.vertex[0].y, poly.vertex[0].z);
-		glVertex3f(poly.vertex[3].x, poly.vertex[3].y, poly.vertex[3].z);
-		glVertex3f(poly.vertex[7].x, poly.vertex[7].y, poly.vertex[7].z);	
+			
 	glEnd();
-	glColor3f(0, 0, 0);
+	/*glColor3f(0, 0, 0);
 	glBegin(GL_LINES);
 		for( int i = 0; i < 4; i ++ )
 		{
@@ -139,6 +150,7 @@ void drawPolygon()
 			glVertex3f(poly.vertex[x].x, poly.vertex[x].y, poly.vertex[x].z);
 		}
 	glEnd();
+	*/
 }
 
 void printVertices(POLYGON poly)
@@ -294,13 +306,11 @@ void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity(); //this call should always come before gluOrtho2D
-	glClearColor(1.0, 1.0, 1.0, 0.0);
-	gluLookAt(0.2, 0.3, 0.5, 0, 0, 0, 0, 0.9, 0);
-	glPushMatrix();
+	glLoadIdentity();
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	gluLookAt(0.2, 0.3, 0.3, 0, 0, 0, 0, 0.9, 0);
 	drawPolygon();
 	//drawAxis();
-	glPopMatrix();
 	glFlush();	
 }
 
