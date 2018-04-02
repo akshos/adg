@@ -6,7 +6,7 @@
 #define MAX(x, y) (x > y)?x:y
 #define MIN(x, y) (x < y)?x:y
 
-using namespace std;
+using std;
 
 struct COLOR {
     float red, green, blue;
@@ -105,13 +105,13 @@ int findMaxY(EDGE e1, EDGE e2, int i) {
 int scanFill(int i, int j, int y, float x1) {
     EDGE *e1 = &edgeList[i];
     EDGE *e2 = &edgeList[j];
-    float x2 = e2->x1 + (float)(y-e2->y1) * e2->im ;
+    float x2 = e2->x1 + static_cast<float>(y-e2->y1) * e2->im);
     int ymax = findMaxY(*e1, *e2, i);
     glColor3f(0, 0, 0);
     while (y < ymax) {
         glBegin(GL_LINES);
-            glVertex2i((int)x1, y);
-            glVertex2i((int)x2, y);
+            glVertex2i(static_cast<int>x1, y);
+            glVertex2i(static_cast<int>x2, y);
         glEnd();
         glFlush();
         usleep(1000);
@@ -180,8 +180,8 @@ void addEdge(int x1, int y1, int x2, int y2) {
         m = 1;
         im = 0;
     } else {
-        m = (float)yDiff/(float)xDiff;
-        im = (float)xDiff/(float)yDiff;
+        m = static_cast<float>yDiff/static_cast<float>xDiff;
+        im = static_cast<float>xDiff/static_cast<float>yDiff;
     }
     edgeList[edgeCount].m = m;
     edgeList[edgeCount].im = im;
