@@ -1,8 +1,8 @@
 /*
 Author : Akshay Venugopal
+Program : Matric Chain Multiplication
 Roll No : 207
-Program : Matrix Chain Multiplication
-*/
+*/ 
 
 #include <iostream>
 #include <cstdlib>

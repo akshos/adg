@@ -1,7 +1,8 @@
 /*
-AUTHOR : Akshay Venugopal
-PROGRAM : Polygon Clipping
-*/
+Author : Akshay Venugopal
+Program : Polygon Clipping
+Roll No : 207
+*/ 
 
 #include <GL/glut.h>
 #include <iostream>

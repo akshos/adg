@@ -1,3 +1,10 @@
+/*
+Author : Akshay Venugopal
+Program : DDA Line Drawing
+Roll No : 207
+*/ 
+
+
 #include <GL/glut.h>
 #include <iostream>
 #include <cmath>

@@ -1,7 +1,8 @@
 /*
-AUTHOR : Akshay Venugopal
-PROGRAM : Line Clipping
-*/
+Author : Akshay Venugopal
+Program : Line Chipping
+Roll No : 207
+*/ 
 
 #include <GL/glut.h>
 #include <iostream>

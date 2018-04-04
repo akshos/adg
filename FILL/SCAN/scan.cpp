@@ -1,4 +1,9 @@
-// Copyright [2018] <Akshay Venugopal>
+/*
+Author : Akshay Venugopal
+Program : Scan Line Fill
+Roll No : 207
+*/
+
 #include <GL/glut.h>
 #include <unistd.h>
 #include <iostream>
@@ -6,7 +11,7 @@
 #define MAX(x, y) (x > y)?x:y
 #define MIN(x, y) (x < y)?x:y
 
-using std;
+using namespace std;
 
 struct COLOR {
     float red, green, blue;
@@ -105,13 +110,13 @@ int findMaxY(EDGE e1, EDGE e2, int i) {
 int scanFill(int i, int j, int y, float x1) {
     EDGE *e1 = &edgeList[i];
     EDGE *e2 = &edgeList[j];
-    float x2 = e2->x1 + static_cast<float>(y-e2->y1) * e2->im);
+    float x2 = e2->x1 + ((int)(y-e2->y1) * e2->im);
     int ymax = findMaxY(*e1, *e2, i);
     glColor3f(0, 0, 0);
     while (y < ymax) {
         glBegin(GL_LINES);
-            glVertex2i(static_cast<int>x1, y);
-            glVertex2i(static_cast<int>x2, y);
+            glVertex2i((int)x1, y);
+            glVertex2i((int)x2, y);
         glEnd();
         glFlush();
         usleep(1000);
@@ -148,7 +153,7 @@ void processEdge(EDGE *e, int i) {
         } else {
             y++;
         }
-        x = e->x1 + (static_cast<float>(y-e->y1) * e->im);
+        x = e->x1 + ((int)(y-e->y1) * e->im);
     }
 }
 
@@ -180,8 +185,8 @@ void addEdge(int x1, int y1, int x2, int y2) {
         m = 1;
         im = 0;
     } else {
-        m = static_cast<float>yDiff/static_cast<float>xDiff;
-        im = static_cast<float>xDiff/static_cast<float>yDiff;
+        m = (int)yDiff/(int)xDiff;
+        im = (int)xDiff/(int)yDiff;
     }
     edgeList[edgeCount].m = m;
     edgeList[edgeCount].im = im;
