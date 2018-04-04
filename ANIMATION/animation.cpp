@@ -117,9 +117,9 @@ void drawRoad()
 		glVertex2i(630, 490);
 		glVertex2i(630, 400);
 	glEnd();
-	drawCircle(605, 420, 10, lightRed);
+	drawCircle(605, 420, 10, lightGreen);
 	drawCircle(605, 444, 10, lightOrange);
-	drawCircle(605, 468, 10, lightGreen);
+	drawCircle(605, 468, 10, lightRed);
 	glColor3f(0.7, 0.7, 0.7);
 	glBegin(GL_QUADS); //draw stripe on road
 		glVertex2i(600, 205);
@@ -162,6 +162,7 @@ void display()
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 	drawRoad();
 	glTranslatef(0, YMAX/2, 0);
 	drawCar();
