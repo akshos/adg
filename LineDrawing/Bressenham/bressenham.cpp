@@ -81,11 +81,11 @@ void draw_less( int x0, int y0, int xn, int yn, float m)
 	{
 		x=x+xcount;
 		if(p < 0)
-			p=p+2*dy;
+			p=p + 2*dy;
 		else
 		{
 			y=y+ycount;
-			p=p+2*(dy-dx);
+			p=p + 2*(dy-dx);
 		}
 		put_point(x, y);
 	}
@@ -141,7 +141,7 @@ void drawLine( int x1, int y1, int x2, int y2 )
 	else if ( abs(m) > 1)
 		draw_great(x1,y1,x2,y2,m);
 	else
-		draw_diagonal(x1,y1,x2,y2);	
+		draw_diagonal(x1,y1,x2,y2);
 }
 
 int flag = 0;

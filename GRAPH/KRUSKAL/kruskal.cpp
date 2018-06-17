@@ -548,7 +548,7 @@ void sortEdges()
 		{
 			if(edgeList[j].weight > edgeList[j+1].weight)
 			{
-				temp.color=edgeList[j].color;
+				/*temp.color=edgeList[j].color;
 				temp.node1=edgeList[j].node1;
 				temp.node2=edgeList[j].node2;
 				temp.weight=edgeList[j].weight;
@@ -560,7 +560,10 @@ void sortEdges()
 				edgeList[j+1].node1=temp.node1;
 				edgeList[j+1].node2=temp.node2;
 				edgeList[j+1].weight=temp.weight;
-				
+                */
+                temp = edgeList[j];
+                edgeList[j] = edgeList[j+1];
+                edgeList[j+1] = temp;
 			}
 		}
 	}
