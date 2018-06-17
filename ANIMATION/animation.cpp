@@ -1,8 +1,15 @@
+/*
+Author : Akshay Venugopal
+Program : Animation
+Roll No : 207
+*/ 
+
 #include <GL/glut.h>
 #include <unistd.h>
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
+#include <pthread.h>
 
 #define XMAX 800
 #define YMAX 500
@@ -236,19 +243,6 @@ void lightGo()
 
 void keyboardPress(unsigned char key, int x, int y)
 {
-/*	if(key == 'w')
-		yvelocity = abs(velocity);		
-	if(key == 's')
-		yvelocity = -1*abs(velocity);
-	if(key != 'w' && key != 's' )
-		yvelocity = 0;
-	if(key == 'd')
-		xvelocity = abs(velocity);		
-	if(key == 'a')
-		xvelocity = -1*abs(velocity);
-	if(key != 'a' && key != 'd' )
-		xvelocity = 0;
-*/
 	if(key == 'q')
 		exit(0);
 	if(key == 'l')
@@ -264,6 +258,21 @@ void keyboardPress(unsigned char key, int x, int y)
 	//cout << "xv : " << xvelocity << " yv : " << yvelocity << endl;
 	animate();
 }
+
+void *changeLight(void *i)
+{
+	while(1)
+	{
+		lightGo();
+		sleep(5);
+		lightSlow();
+		sleep(1);
+		lightStop();
+		sleep(5);
+	}
+}	
+
+pthread_t threadId;
 
 int main( int argc, char **argv )
 {
@@ -282,7 +291,10 @@ int main( int argc, char **argv )
 	slowVelocity = 2;
 	xvelocity = yvelocity = 0;
 	lightStatus = GO;
-
+	
+	int i;
+	int rc = pthread_create(&threadId, NULL, changeLight, (void *)&i);
+	
 	glutDisplayFunc(display);
 	glutIdleFunc(animate);
 	glutKeyboardFunc(keyboardPress);

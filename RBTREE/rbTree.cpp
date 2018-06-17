@@ -1,3 +1,9 @@
+/*
+Author : Akshay Venugopal
+Program : Red-Black Tree
+Roll No : 207
+*/ 
+
 #include <GL/glut.h>
 #include <unistd.h>
 #include <cstdlib>
@@ -401,7 +407,7 @@ void deleteTreeNode(NODE *z)
 		x = z->rchild;
 		transplant(z, z->rchild);
 	}
-	else if( x->rchild == nil )
+	else if( z->rchild == nil )
 	{
 		x = z->lchild;
 		transplant(z, z->lchild);

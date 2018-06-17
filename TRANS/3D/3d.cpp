@@ -1,8 +1,8 @@
 /*
-AUTHOR : Akshay Venugopal
-PROGRAM : 3D Transformations
-Roll No: 207
-*/
+Author : Akshay Venugopal
+Program : 3-D Transformations
+Roll No : 207
+*/ 
 
 #include <GL/glut.h>
 #include <iostream>

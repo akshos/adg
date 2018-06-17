@@ -1,8 +1,8 @@
 /*
-AUTHOR : Akshay Venugopal
-PROGRAM : Boundary Fill
-Roll No: 207
-*/
+Author : Akshay Venugopal
+Program : Boundary Fill
+Roll No : 207
+*/ 
 
 #include <GL/glut.h>
 #include <iostream>

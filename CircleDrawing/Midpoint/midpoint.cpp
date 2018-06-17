@@ -1,3 +1,9 @@
+/*
+Author : Akshay Venugopal
+Program : Mid Point Circle Drawing
+Roll No : 207
+*/ 
+
 #include <GL/glut.h>
 #include <iostream>
 
